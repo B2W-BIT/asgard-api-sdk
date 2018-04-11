@@ -7,7 +7,7 @@ Nesse projeto encontramos código comum que pode ser usado em plugins escritos p
 
 # Funções disponíveis
 
-asgard.sdk.options.get_option()
+## asgard.sdk.options.get_option()
 
 Permite ler múltiplas variaveis de ambiente e retorna os valores em uma lista, ex:
 
@@ -21,4 +21,9 @@ Nesse caso a variável `dados` seria uma lista com todos os valores das envs:
  * HOLLOWMAN_MESOS_ADDRESS_<N>
 
  Onde `N` é um inteiro
+
+## mesos.sdk.mesos.get_mesos_leader_address()
+
+Retorna o endereço do mesos que atualmente é o lider do cluster. Essa função depende
+da `get_option`. Faz a chamada `get_option("MESOS", "ADDRESS")`
 
