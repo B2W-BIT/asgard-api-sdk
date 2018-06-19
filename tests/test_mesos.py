@@ -1,10 +1,11 @@
 import unittest
 from unittest import mock
-from responses import RequestsMock
-
-from asgard.sdk.mesos import get_mesos_leader_address
-
 import os
+
+from asgard.sdk.mesos import get_mesos_leader_address, is_master_healthy
+
+from responses import RequestsMock
+import requests
 
 class MesosTest(unittest.TestCase):
 
@@ -22,3 +23,19 @@ class MesosTest(unittest.TestCase):
             mesos_leader_ip = get_mesos_leader_address()
 
             self.assertEqual("http://10.0.2.2:5050", mesos_leader_ip)
+
+    def test_mesos_master_is_healthy_ok(self):
+        with RequestsMock() as rsps:
+            rsps.add("GET", url="http://10.0.0.1:5050/health", status=200, body="")
+            self.assertTrue(is_master_healthy("http://10.0.0.1:5050"))
+
+    def test_mesos_master_is_healthy_timeout(self):
+        with RequestsMock() as rsps:
+            rsps.add("GET", url="http://10.0.0.1:5050/health", body=requests.exceptions.ConnectTimeout())
+            self.assertFalse(is_master_healthy("http://10.0.0.1:5050"))
+
+    def test_mesos_master_is_healthy_connection_error(self):
+        with RequestsMock() as rsps:
+            rsps.add("GET", url="http://10.0.0.1:5050/health", body=requests.exceptions.ConnectionError())
+            self.assertFalse(is_master_healthy("http://10.0.0.1:5050"))
+
