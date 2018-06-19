@@ -5,7 +5,7 @@ here = path.abspath(path.dirname(__file__))
 
 setup(
     name='asgard-api-sdk',
-    version='0.2.0',
+    version='0.3.0-rc1',
 
     description='Asgard API common code',
     long_description="Conjunto de código que são úteis para os plugins da Asgard API",
