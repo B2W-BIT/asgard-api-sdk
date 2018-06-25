@@ -1,6 +1,8 @@
 
 import requests
 
+from http import HTTPStatus
+
 from asgard.sdk.options import get_option
 
 def get_mesos_leader_address():
@@ -14,3 +16,12 @@ def get_mesos_leader_address():
         except requests.exceptions.ConnectionError as ConErr:
             pass
             #config.logger.debug({"action": "find-mesos-leader", "try-address": mesos_address, "exception": True})
+
+def is_master_healthy(master_url):
+    try:
+        response = requests.get(f"{master_url}/health", timeout=2, allow_redirects=False)
+        return response.status_code == HTTPStatus.OK
+    except Exception:
+        pass
+
+    return False

@@ -27,3 +27,8 @@ Nesse caso a variável `dados` seria uma lista com todos os valores das envs:
 Retorna o endereço do mesos que atualmente é o lider do cluster. Essa função depende
 da `get_option`. Faz a chamada `get_option("MESOS", "ADDRESS")`
 
+## mesos.sdk.is_master_healthy()
+
+Dada uma URL de um master, acessa `<URL>/health` e retorna True em caso de HTTP 200 OK, False caso contrário.
+Essa função usa timeout de 2s
+
